@@ -1,0 +1,26 @@
+@if (errorMessage) {
+<div>{{ errorMessage }}</div>
+}
+
+<div class="login-container">
+  <div class="login-card">
+    <h2>Login</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email:</label>
+          <input type="email" placeholder="Email" class="form-control" formControlName="email" />
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Palavra-Passe:</label>
+        <input type="password" placeholder="Password" class="form-control" formControlName="password" />
+      </div>
+
+       <button type="submit" class="login-btn" [disabled]="form.invalid">Sign In</button>
+      
+      <div>
+        <a href="/register">Criar conta</a>
+      </div>
+    </form>
+  </div>
+</div>

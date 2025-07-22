@@ -1,0 +1,7 @@
+<header class="dashboard-header">
+        <h1>QUIZZINGS</h1>
+        <div>
+            {{ authService.currentUser()?.username }}
+            <button (click)="logout()" class="logout-btn">Logout</button>
+        </div>
+    </header>

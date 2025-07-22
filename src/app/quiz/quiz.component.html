@@ -1,0 +1,58 @@
+<div>
+  <div *ngIf="!temaAtual">
+    <h2>Escolhe um tema</h2>
+    <div class="temas">
+      <button *ngFor="let tema of temas" (click)="carregarPerguntas(tema.nome)">
+        <img [src]="tema.imagem" alt="{{tema.nome}}" />
+        <span>{{ tema.nome }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="temaAtual && !quizFinished && questions.length">
+    <h3>Tema: {{ temaAtual }}</h3>
+    <div class="pergunta">
+      <h4>Pergunta {{ currentQuestionIndex + 1 }} de {{ questions.length }}</h4>
+      <p [innerHTML]="questions[currentQuestionIndex].question"></p>
+
+      <ul>
+        <li *ngFor="let key of getAnswerKeys(questions[currentQuestionIndex].answers)">
+          <button [disabled]="selectedKey !== null" (click)="responder(key)" [ngClass]="{
+              'escolhida-correta': selectedKey === key && questions[currentQuestionIndex].correct_answers[key + '_correct'] === 'true',
+              'escolhida-errada': selectedKey === key && questions[currentQuestionIndex].correct_answers[key + '_correct'] === 'false',
+              'revelar-correta': selectedKey !== null && questions[currentQuestionIndex].correct_answers[key + '_correct'] === 'true' && selectedKey !== key
+            }">
+            {{ questions[currentQuestionIndex].answers[key] }}
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <button *ngIf="showNextButton" (click)="proximaPergunta()">Próxima Pergunta</button>
+  </div>
+
+  <div class="resultado-final" *ngIf="quizFinished">
+    <h2>Quiz concluído!</h2>
+    <p>Pontuação: {{ score }} / {{ questions.length }}</p>
+    <button (click)="resetQuiz()">Voltar aos temas</button>
+  </div>
+
+  <div class="videos" *ngIf="videos.length">
+    <h3>Vídeos relacionados com "{{ temaAtual }}"</h3>
+    <div class="video-list">
+      <div class="video-list" *ngIf="videos?.length">
+  <div *ngFor="let video of videos" class="video">
+    <a [href]="'https://www.youtube.com/watch?v=' + video?.id?.videoId" target="_blank" rel="noopener noreferrer">
+      <img
+        [src]="video?.snippet?.thumbnails?.medium?.url"
+        [alt]="video?.snippet?.title || 'Vídeo'"
+        width="300"
+        height="170"
+      />
+      <p>{{ video?.snippet?.title }}</p>
+    </a>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
